@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from collections import defaultdict
 import requests, lxml.html, re, json
-import time, datetime
+import time, datetime, sys
 
 
 def table_to_list(table):
@@ -29,11 +29,9 @@ def iter_2d_dict(dct):
         for j, col in sorted(row.items()):
             cols.append(col)
         yield cols
-courses = {"CO.SDH4-A", "CO.SDH4-B", "CO.SDH3-A", "CO.SDH3-B"}
 
-for c in courses:
-    course = c
-
+def get_timetable(course):
+    # make req
     resp = requests.get(
         'http://timetables.cit.ie:70/reporting/Individual;Student+Set;name;' + course + 
         '?weeks=3-15&days=1-5&periods=5-40')
@@ -44,6 +42,7 @@ for c in courses:
     class_timetable_etree = lxml.etree.fromstring(class_timetable_html)
     class_timetable_list = table_to_list(class_timetable_etree)
 
+    # get each class of the week
     events = []
     for class_timetable_row in class_timetable_list[1:]:
         _time = BeautifulSoup(class_timetable_row[0], 'html.parser').text.strip()
@@ -59,11 +58,12 @@ for c in courses:
                 continue
 
             class_date_range = re.sub('([A-Za-z])(\d)', r'\1 \2', class_event_info[2].replace('wk', '')).split('-')
-            class_event_dict = {'subject_name': class_event_info[0], 'room_number': class_event_info[1],
-                                'date_start': class_date_range[0], 'date_end': class_date_range[1]}
+            class_event_dict = {'subject_name': class_event_info[0], 'room_number': class_event_info[1]}
             events.append({'day': day, 'time': _time, 'details': class_event_dict})
 
     sorted_events_original = sorted(events, key=lambda k: k['day'])
+
+    # structure each cell into one obj with start, fin time
     sorted_events_new = []
     for event_index, current_event in enumerate(sorted_events_original):
         is_final_event = (event_index == len(sorted_events_original) - 1)
@@ -79,8 +79,12 @@ for c in courses:
             current_event['time_end'] = (
             datetime.datetime.strptime(current_event.pop('time'), '%H:%M') + datetime.timedelta(minutes=15)).strftime(
                 '%H:%M')
-            sorted_events_new.append(current_event)
-        
-        with open(c + ".json", 'w') as f:
-            json.dump(sorted_events_new, f, indent=4)
+            sorted_events_new.append(current_event)     
+    return sorted_events_new
 
+def main():
+    print json.dumps(get_timetable(), indent=4)
+    return get_timetable()
+
+if __name__ == '__main__':
+    main()
