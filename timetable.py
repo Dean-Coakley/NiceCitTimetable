@@ -1,7 +1,6 @@
-from bs4 import BeautifulSoup
 from collections import defaultdict
-import requests, lxml.html, re, json
-import time, datetime, sys
+import requests, lxml.html, re, json, datetime
+from bs4 import BeautifulSoup
 
 
 def table_to_list(table):
@@ -24,9 +23,9 @@ def table_to_2d_dict(table):
 
 
 def iter_2d_dict(dct):
-    for i, row in sorted(dct.items()):
+    for _, row in sorted(dct.items()):
         cols = []
-        for j, col in sorted(row.items()):
+        for _, col in sorted(row.items()):
             cols.append(col)
         yield cols
 
@@ -83,8 +82,8 @@ def get_timetable(course):
     return sorted_events_new
 
 def main():
-    print json.dumps(get_timetable(), indent=4)
-    return get_timetable()
+    print json.dumps(get_timetable("CO.SDH4-A"), indent=4)
+    return get_timetable("CO.SDH4-A")
 
 if __name__ == '__main__':
     main()
