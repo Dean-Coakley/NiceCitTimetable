@@ -1,13 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Nice Cit Timetables</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% endblock %}
 </head>
 <body>
+
+    <nav class="hide">
+        <div class="nav-wrapper">
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li>Test</li>
+                <li>Test</li>
+                <li>Test</li>
+                <li>Test</li>
+            </ul>
+       </div>
+    </nav>
     {% block content %}
     {% endblock %}
+    
+   
+        {% block footerim %}
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+        <script src="{{ url_for('static', filename='js/site.js') }}"></script>
+
+        <footer></footer>
+        {% endblock %}
+    
+    
+    
 </body>
 </html>

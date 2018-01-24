@@ -2,5 +2,5 @@
 oop_timetable.py
 *.pyc
 .DS_Store
-.saascache/*
+.sass-cache/*
 *.css.map
