@@ -1,24 +1,21 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block content %}
 
-{% block content %}
+<div class="row">
+    <form class="col s6" action="" method="POST">
+        <div class="input-field">
+            <!-- <select multiple> -->
+            <select>
+                <option value="CO.SDH4-A" class="course-option">SDH4-A</option>
+                <option value="CO.SDH4-B">SDH4-B</option>
+                <option value="CO.SDH3-A">SDH3-A</option>
+                <option value="CO.SDH3-B">SDH3-B</option>
+                <option value="CO.CS4">SDH4-A</option>
+            </select>
+        </div>
 
-    <div class="row">
-        <form class="col s6" action="" method="POST">
-            <div class="input-field">
-                <!-- <select multiple> -->
-                <select>
-                    <option value="CO.SDH4-A" class="course-option">SDH4-A</option>
-                    <option value="CO.SDH4-B">SDH4-B</option>
-                    <option value="CO.SDH3-A">SDH3-A</option>
-                    <option value="CO.SDH3-B">SDH3-B</option>
-                    <option value="CO.CS4">SDH4-A</option>
-                </select>
-            </div>
+        <input type="submit" value="Submit">
 
-            <input type="submit" value="Submit">
-            
-        </form>
-    </div>
+    </form>
+</div>
 
 {% endblock %}
-
