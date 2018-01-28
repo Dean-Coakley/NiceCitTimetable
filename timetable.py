@@ -82,7 +82,7 @@ def get_timetable(course):
     return sorted_events_new
 
 def main():
-    print json.dumps(get_timetable("CO.SDH4-A"), indent=4)
+    json.dumps(get_timetable("CO.SDH4-A"), indent=4)
     return get_timetable("CO.SDH4-A")
 
 if __name__ == '__main__':
